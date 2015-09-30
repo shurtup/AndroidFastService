@@ -1,0 +1,26 @@
+<resources>
+
+    <string name="app_name">Clean Trash</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="cleanTrash">Clean Trash</string>
+    <string name="profile">Perfil</string>
+    <string name="cadastrar">Cadastrar</string>
+    <string name="alterarSenha">Alterar Senha</string>
+    <string name="listarReporte">Listar Reporte</string>
+    <string name="localizacao">Localizacao</string>
+    <string name="action_about">Sobre</string>
+    <string name="nav_drawer_username">Gabriel Santiago</string>
+    <string name="nav_drawer_email">gabrielrsantiago@gmail.com</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_inserir_usuario">InserirUsuario</string>
+    <string name="title_activity_listar_usuarios">ListarUsuarios</string>
+    <string name="title_activity_splash">Splash</string>
+    <string name="title_activity_login">Login</string>
+    <string name="msg_login_obg">Loguin Obrigatorio</string>
+    <string name="msg_senha_obg">Senha Obrigatorio</string>
+    <string name="msg_login_invalido">Usuario/Senha invalidos</string>
+    <string name="msg_login_sucesso">Login efetuado com sucesso!</string>
+
+</resources>
