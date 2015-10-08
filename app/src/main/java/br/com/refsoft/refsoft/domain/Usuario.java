@@ -7,11 +7,13 @@ import java.io.Serializable;
  */
 public class Usuario implements Serializable {
 
-    public long id;
+    public int id;
     public String login;
     public String nome;
     public String email;
     public String senha;
+
+
 
     public String getLogin() {
         return login;
@@ -21,11 +23,11 @@ public class Usuario implements Serializable {
         this.login = login;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

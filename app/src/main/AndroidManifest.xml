@@ -39,10 +39,6 @@
             android:label="@string/title_activity_inserir_usuario" >
         </activity>
         <activity
-            android:name=".activity.ListarUsuarios"
-            android:label="@string/title_activity_listar_usuarios" >
-        </activity>
-        <activity
             android:name=".activity.Splash"
             android:label="@string/title_activity_splash" >
             <intent-filter>
@@ -50,6 +46,18 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.LoginActivity"
+            android:label="@string/title_activity_login" >
+        </activity>
+        <activity
+            android:name=".activity.ListActivity"
+            android:label="@string/title_activity_list" >
+        </activity>
+        <activity
+            android:name=".activity.Parceble"
+            android:label="@string/title_activity_parceble" >
         </activity>
     </application>
 

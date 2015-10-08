@@ -16,6 +16,8 @@ public class Reporte {
     public String longitude;
     public String endereco;
 
+   // public void setStatusReporte(int statusReporte) {this.statusReporte = statusReporte;}
+
     public int getIdUsuario() {
         return idUsuario;
     }
@@ -48,13 +50,9 @@ public class Reporte {
         this.descricaoReporte = descricaoReporte;
     }
 
-    public String getStatusReporte() {
-        return statusReporte;
-    }
+    public String getStatusReporte() {return statusReporte;}
 
-    public void setStatusReporte(String statusReporte) {
-        this.statusReporte = statusReporte;
-    }
+    public void setStatusReporte(String statusReporte) {this.statusReporte = statusReporte;}
 
     public String getDataAbertura() {
         return dataAbertura;

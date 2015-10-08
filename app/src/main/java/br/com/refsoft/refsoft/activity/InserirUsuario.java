@@ -1,6 +1,7 @@
 package br.com.refsoft.refsoft.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -8,17 +9,22 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import br.com.refsoft.refsoft.R;
 import br.com.refsoft.refsoft.domain.RepositorioUsuario;
 import br.com.refsoft.refsoft.domain.Usuario;
 
 public class InserirUsuario extends Activity  implements View.OnClickListener {
     private static final String CATEGORIA = "InserirUsuario";
+    private static final int inserir = 1;
     EditText nome;
     EditText email;
     EditText senha;
     EditText login;
     Button btn1;
+    Button btnTeste;
     private RepositorioUsuario repositorioUsuario;
     private Usuario modeloUsuario;
 
@@ -32,18 +38,53 @@ public class InserirUsuario extends Activity  implements View.OnClickListener {
         senha = (EditText) findViewById(R.id.password);
         login = (EditText) findViewById(R.id.login);
         btn1  = (Button) findViewById(R.id.salvar);
+        btnTeste = (Button) findViewById(R.id.btnTeste);
+        btnTeste.setOnClickListener(this);
         btn1.setOnClickListener(this);
 
     }
 
     @Override
     public void onClick(View view) {
-            repositorioUsuario = new RepositorioUsuario(this);
-        if(view == btn1){
-            long id = repositorioUsuario.insertUsuario(inserirUsuario());
-            limpaCampos();
-            Toast.makeText(this, "Usuario cadastrado com sucesso id: " + id, Toast.LENGTH_SHORT).show();
+        if (view == btn1) {
+            String emails = email.getText().toString();
+            String pass = senha.getText().toString();
+            if (nome.getText().length() == 0) {
+                nome.setError("Nome inválido");
+            } else if (login.getText().length() == 0) {
+                login.setError("Login inválido");
+            } else if (!isValidEmail(emails)) {
+                email.setError("Email inválido.");
+            } else if (!isValidPassword(pass)) {
+                senha.setError("A senha tem que ter mais de 6 characters.");
+            } else {
+                {
+                    repositorioUsuario = new RepositorioUsuario(this);
+                    if (view == btn1) {
+                        long id = repositorioUsuario.insertUsuario(inserirUsuario());
+
+                        Intent it = new Intent(this, MainActivity.class);
+                        it.putExtra("usuario", modeloUsuario);
+                        startActivity(it);
+
+                        limpaCampos();
+                        Toast.makeText(this, "Usuario cadastrado com sucesso id: " + id, Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
         }
+            if (view == btnTeste) {
+                try {
+                    repositorioUsuario = new RepositorioUsuario(this);
+                    repositorioUsuario.insertUsuario(inserirUsuarioTeste());
+
+                    Intent it = new Intent(this, Parceble.class);
+                    it.putExtra("usuario", modeloUsuario);
+                    startActivity(it);
+                } catch (Exception e) {
+                    Log.i(CATEGORIA, e.toString());
+                }
+            }
     }
 
     private void limpaCampos() {
@@ -51,6 +92,20 @@ public class InserirUsuario extends Activity  implements View.OnClickListener {
         email.setText("");
         login.setText("");
         senha.setText("");
+    }
+
+    private Usuario inserirUsuarioTeste(){
+        modeloUsuario = new Usuario();
+        try {
+            modeloUsuario.setId(15);
+            modeloUsuario.setNome("Teste");
+            modeloUsuario.setEmail("teste@email.com");
+            modeloUsuario.setLogin("Testando");
+            modeloUsuario.setSenha("123456");
+        }catch(Exception e){
+            Log.i(CATEGORIA, e.toString());
+        }
+        return modeloUsuario;
     }
 
     private Usuario inserirUsuario(){
@@ -66,4 +121,23 @@ public class InserirUsuario extends Activity  implements View.OnClickListener {
         }
         return modeloUsuario;
     }
+
+
+    private boolean isValidEmail(String email) {
+        String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+
+        Pattern pattern = Pattern.compile(EMAIL_PATTERN);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
+    }
+
+
+    private boolean isValidPassword(String pass) {
+        if (pass != null && pass.length() > 6) {
+            return true;
+        }
+        return false;
+    }
+
 }

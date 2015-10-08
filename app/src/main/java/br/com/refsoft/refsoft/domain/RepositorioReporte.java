@@ -14,11 +14,13 @@ public class RepositorioReporte {
 
     private SQLiteDatabase db;
     private SQliteHelper dbHelper;
-    private RepositorioReporte repositorioReporte;
     private List<Reporte> listaReporte;
+    public static final String CATEGORIA = "FastService";
+
+    String[] campos = new String[]{"id_reporte", "id_user", "tipo", "descricao", "status", "data", "hora", "latitude", "longitude", "endereco"};
 
     public String[] getColunasTabReporte() {
-        String[] USUARIOS_COLUNA_TAB_USUARIOS = new String[]{"id_reporte", "tipo", "descricao", "status", "data", "hora", "latitude", "longitude", "endereco"};
+        String[] USUARIOS_COLUNA_TAB_USUARIOS = new String[]{"id_reporte", "id_user", "tipo", "descricao", "status", "data", "hora", "latitude", "longitude", "endereco"};
         return USUARIOS_COLUNA_TAB_USUARIOS;
     }
 
@@ -39,14 +41,21 @@ public class RepositorioReporte {
             }
         }
     }
+    public Cursor getCursor(){
+        try {
+            return db.query("reportes", campos, null, null, null, null, null, null);
+        }catch (android.database.SQLException e){
+            Log.e(CATEGORIA, "Erro ao buscar os reportes: " + e.toString());
+            return null;
+        }
+    }
 
     public List<Reporte> listReporte() {
-        Cursor cursor = null;
+        Cursor cursor = getCursor();
         listaReporte.clear();
 
         try {
-            cursor = db.query("reportes", getColunasTabReporte(), null, null, null, null, "id_reporte desc", null);
-            if (cursor.getCount() > 0) {
+            if (cursor.moveToFirst()) {
                 while (cursor.moveToNext()) {
                     Reporte reporteLinha = new Reporte();
                     reporteLinha.setIdReporte(cursor.getInt(cursor.getColumnIndex("id_reporte")));
@@ -73,8 +82,9 @@ public class RepositorioReporte {
         return listaReporte;
     }
 
-    public ContentValues contentValues(Reporte reporte) {
+    public ContentValues contentValues(Reporte reporte, int id_usuario) {
         ContentValues values = new ContentValues();
+        values.put("id_user", id_usuario);
         values.put("tipo", reporte.getTipoReporte());
         values.put("descricao", reporte.getDescricaoReporte());
         values.put("status", reporte.getStatusReporte());
@@ -86,10 +96,10 @@ public class RepositorioReporte {
         return values;
     }
 
-    public long insertReporte(Reporte novoReporte) {
+    public long insertReporte(Reporte novoReporte, int id_usuario) {
         long id = 0;
         try {
-            ContentValues values = contentValues(novoReporte);
+            ContentValues values = contentValues(novoReporte, id_usuario);
             id = db.insert("reportes", null, values);
         } catch (Exception e) {
             Log.e("Erro: ", e.getMessage());
@@ -101,7 +111,7 @@ public class RepositorioReporte {
         boolean resultadoExclusao = false;
         try {
             String where = "id_reporte=?";
-            String[] args = new String[]{};
+            String[] args = new String[]{ID_REPORTE};
             int num = db.delete("reportes", where, args);
 
             if (num == 1) {
@@ -113,12 +123,12 @@ public class RepositorioReporte {
         return resultadoExclusao;
     }
 
-    public boolean alterarReporte(Reporte reporte) {
+    public boolean alterarReporte(Reporte reporte, int id_usuario) {
         boolean resultadoAlteracao = false;
         try {
             String where = "id_reporte=?";
             String[] args = new String[]{String.valueOf(reporte.getIdReporte())};
-            int num = db.update("reportes", contentValues(reporte), where, args);
+            int num = db.update("reportes", contentValues(reporte, id_usuario), where, args);
             if (num == 1) {
                 resultadoAlteracao = true;
             }
@@ -128,13 +138,13 @@ public class RepositorioReporte {
         return resultadoAlteracao;
     }
 
-    public Reporte buscaIndividualReporte(String ID){
-        Cursor cursor = null;
+    public Reporte buscaIndividualReporte(String reporteTipo){
+        Cursor cursor = getCursor();
         Reporte reporteLinha = new Reporte();
-        String where = "id_reporte=?";
-        String[] args = new String[]{ID};
+        String where = "tipo=?";
+        String[] args = new String[]{reporteTipo};
         try {
-            cursor = db.query("reportes", getColunasTabReporte(), where, args, null, null, null);
+            cursor = db.query( "reportes", getColunasTabReporte(), where, args, null, null, null);
             if(cursor.getCount() > 0){
                 while (cursor.moveToNext()){
                     reporteLinha.setIdReporte(cursor.getInt(cursor.getColumnIndex("id_reporte")));

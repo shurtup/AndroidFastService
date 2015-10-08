@@ -47,7 +47,7 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:text="Id:"
-                        android:layout_marginLeft="530px"
+                        android:layout_marginLeft="435px"
                         android:id="@+id/textView5" />
                 </LinearLayout>
 
@@ -63,14 +63,11 @@
                     android:layout_height="wrap_content"
                     android:weightSum="1">
 
-                    <EditText
-                        android:layout_width="165dp"
+                    <Spinner
+                        android:layout_width="121dp"
                         android:layout_height="wrap_content"
-                        android:inputType="textPersonName"
-                        android:ems="10"
-                        android:id="@+id/tipo"
-                        android:paddingTop="0px"
-                        android:layout_weight="0.37" />
+                        android:id="@+id/spinner"
+                        android:layout_weight="0.19"/>
 
                     <EditText
                         android:layout_width="51dp"

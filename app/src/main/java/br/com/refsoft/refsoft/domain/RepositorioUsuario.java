@@ -14,7 +14,6 @@ public class RepositorioUsuario  {
 
     private SQLiteDatabase db;
     private SQliteHelper dbHelper;
-    private RepositorioUsuario repositorioUsuario;
     private List<Usuario> listaUsuarios;
 
     public String[] getColunasTabUsuarios(){

@@ -90,5 +90,12 @@
             android:id="@+id/salvar"
             android:layout_gravity="center_horizontal" />
 
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="SalvarTeste"
+            android:id="@+id/btnTeste"
+            android:layout_gravity="center_horizontal" />
+
     </LinearLayout>
 </RelativeLayout>
