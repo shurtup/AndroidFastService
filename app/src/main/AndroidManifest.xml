@@ -55,10 +55,6 @@
             android:name=".activity.ListActivity"
             android:label="@string/title_activity_list" >
         </activity>
-        <activity
-            android:name=".activity.Parceble"
-            android:label="@string/title_activity_parceble" >
-        </activity>
     </application>
 
 </manifest>

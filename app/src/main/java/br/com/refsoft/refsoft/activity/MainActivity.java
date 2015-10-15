@@ -102,25 +102,27 @@ public class MainActivity extends BaseActivity implements NavigationDrawerFragme
     @Override
     public void onClick(View view) {
         repositorioReporte = new RepositorioReporte(this);
-        int id_user = usuario.getId();
+
         if(view == imgAdicionar){
                 if(descricao.getText().length()==0  || localizacao.getText().length() == 0 || status.getText().length() == 0){
                     Toast.makeText(this, "Os campos descrição, tipo, localização e status são obrigatórios.", Toast.LENGTH_SHORT).show();
                 }else {
-                    long id = repositorioReporte.insertReporte(recuperarDadosCampos(),id_user );
+                    long id = repositorioReporte.insertReporte(recuperarDadosCampos(), usuario.getId());
                     limparCampos();
+
                     Toast.makeText(this, "Reporte cadastrado com sucesso id: " + id, Toast.LENGTH_SHORT).show();
                 }
         }
         if(view == imgFolder){
-            preencherListViewReportes(repositorioReporte.listReporte());
+            preencherListViewReportes(repositorioReporte.listaQuery(usuario.getId()));
+           // preencherListViewReportes(repositorioReporte.listReporte());
             limparCampos();
         }
         if(view == imgEdit){
             if(id.length() > 0){
-                boolean update = repositorioReporte.alterarReporte(recuperarDadosCampos(), id_user);
+                boolean update = repositorioReporte.alterarReporte(recuperarDadosCampos(), usuario.getId());
                 limparCampos();
-                preencherListViewReportes(repositorioReporte.listReporte());
+                preencherListViewReportes(repositorioReporte.listaQuery(usuario.getId()));
                 if (update == true) {
                     Toast.makeText(this, "Reporte alterado.", Toast.LENGTH_SHORT).show();
                 }else{
@@ -132,7 +134,7 @@ public class MainActivity extends BaseActivity implements NavigationDrawerFragme
             if(id.length() > 0){
                 boolean delete = repositorioReporte.excluirReporte(id.getText().toString());
                 limparCampos();
-                preencherListViewReportes(repositorioReporte.listReporte());
+                preencherListViewReportes(repositorioReporte.listaQuery(usuario.getId()));
 
                 if (delete == true) {
                     Toast.makeText(this, "Reporte deletado.", Toast.LENGTH_SHORT).show();
@@ -156,8 +158,6 @@ public class MainActivity extends BaseActivity implements NavigationDrawerFragme
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         String reporteTipo = parent.getItemAtPosition(position).toString();
-     //   Toast.makeText(this, "Você clicou em: " + reporteId, Toast.LENGTH_SHORT).show();
-     //   Toast.makeText(this, "Você clicou em: " + descricao.toString(), Toast.LENGTH_SHORT).show();
         repositorioReporte = new RepositorioReporte(this);
         modeloReporte = repositorioReporte.buscaIndividualReporte(reporteTipo);
         setarCampos(modeloReporte);

@@ -79,6 +79,7 @@ public class RepositorioUsuario  {
         try {
             ContentValues values = contentValues(novoUsuario);
             id = db.insert("usuarios", null, values);
+
         }catch(Exception e){
             Log.e("Erro: ", e.getMessage());
         }

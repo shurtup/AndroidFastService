@@ -50,12 +50,12 @@ public class RepositorioReporte {
         }
     }
 
-    public List<Reporte> listReporte() {
-        Cursor cursor = getCursor();
-        listaReporte.clear();
+
+    public List <Reporte> listaQuery(long id_usuario){
+            Cursor cursor = db.rawQuery("SELECT * FROM reportes WHERE id_user = " + id_usuario, null);
 
         try {
-            if (cursor.moveToFirst()) {
+            //if (cursor.moveToFirst()) {
                 while (cursor.moveToNext()) {
                     Reporte reporteLinha = new Reporte();
                     reporteLinha.setIdReporte(cursor.getInt(cursor.getColumnIndex("id_reporte")));
@@ -68,7 +68,7 @@ public class RepositorioReporte {
                     reporteLinha.setLongitude(cursor.getString(cursor.getColumnIndex("longitude")));
                     reporteLinha.setEndereco(cursor.getString(cursor.getColumnIndex("endereco")));
                     listaReporte.add(reporteLinha);
-                }
+           //     }
             }
         } catch (Exception e) {
             Log.e("Erro: ", e.getMessage());
@@ -82,7 +82,41 @@ public class RepositorioReporte {
         return listaReporte;
     }
 
-    public ContentValues contentValues(Reporte reporte, int id_usuario) {
+
+
+    public List<Reporte> listReporte() {
+        Cursor cursor = getCursor();
+        listaReporte.clear();
+
+        try {
+           // if (cursor.moveToFirst()) {
+                while (cursor.moveToNext()) {
+                    Reporte reporteLinha = new Reporte();
+                    reporteLinha.setIdReporte(cursor.getInt(cursor.getColumnIndex("id_reporte")));
+                    reporteLinha.setTipoReporte(cursor.getString(cursor.getColumnIndex("tipo")));
+                    reporteLinha.setDescricaoReporte(cursor.getString(cursor.getColumnIndex("descricao")));
+                    reporteLinha.setStatusReporte(cursor.getString(cursor.getColumnIndex("status")));
+                    reporteLinha.setDataAbertura(cursor.getString(cursor.getColumnIndex("data")));
+                    reporteLinha.setHoraAbertura(cursor.getString(cursor.getColumnIndex("hora")));
+                    reporteLinha.setLatitude(cursor.getString(cursor.getColumnIndex("latitude")));
+                    reporteLinha.setLongitude(cursor.getString(cursor.getColumnIndex("longitude")));
+                    reporteLinha.setEndereco(cursor.getString(cursor.getColumnIndex("endereco")));
+                    listaReporte.add(reporteLinha);
+           //     }
+            }
+        } catch (Exception e) {
+            Log.e("Erro: ", e.getMessage());
+        } finally {
+            if (cursor != null) {
+                if (!cursor.isClosed()) {
+                    cursor.close();
+                }
+            }
+        }
+        return listaReporte;
+    }
+
+    public ContentValues contentValues(Reporte reporte, long id_usuario) {
         ContentValues values = new ContentValues();
         values.put("id_user", id_usuario);
         values.put("tipo", reporte.getTipoReporte());
@@ -96,7 +130,7 @@ public class RepositorioReporte {
         return values;
     }
 
-    public long insertReporte(Reporte novoReporte, int id_usuario) {
+    public long insertReporte(Reporte novoReporte, long id_usuario) {
         long id = 0;
         try {
             ContentValues values = contentValues(novoReporte, id_usuario);
@@ -106,6 +140,8 @@ public class RepositorioReporte {
         }
         return id;
     }
+
+
 
     public boolean excluirReporte(String ID_REPORTE) {
         boolean resultadoExclusao = false;
@@ -123,7 +159,7 @@ public class RepositorioReporte {
         return resultadoExclusao;
     }
 
-    public boolean alterarReporte(Reporte reporte, int id_usuario) {
+    public boolean alterarReporte(Reporte reporte, long id_usuario) {
         boolean resultadoAlteracao = false;
         try {
             String where = "id_reporte=?";

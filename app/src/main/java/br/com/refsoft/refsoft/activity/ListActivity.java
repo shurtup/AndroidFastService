@@ -14,6 +14,7 @@ import br.com.refsoft.refsoft.adapter.ReporteListAdapter;
 import br.com.refsoft.refsoft.domain.Reporte;
 import br.com.refsoft.refsoft.domain.RepositorioReporte;
 import br.com.refsoft.refsoft.domain.SQliteHelper;
+import br.com.refsoft.refsoft.domain.Usuario;
 
 public class ListActivity extends android.app.ListActivity {
     private SQLiteDatabase db;
@@ -23,14 +24,15 @@ public class ListActivity extends android.app.ListActivity {
     private CursorAdapter dataSource;
     private List<Reporte> reportes;
     String[] campos = new String[]{"id_reporte", "tipo", "descricao", "status", "data", "hora", "latitude", "longitude", "endereco"};
-
+    Usuario usuario;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        usuario = (Usuario) getIntent().getSerializableExtra("usuario");
         listView = (ListView) findViewById(R.id.list);
         RepositorioReporte repositorioReporte = new RepositorioReporte(this);
-        reportes = repositorioReporte.listReporte();
+        reportes = repositorioReporte.listaQuery(usuario.getId());
         setListAdapter(new ReporteListAdapter(this, reportes));
     }
 

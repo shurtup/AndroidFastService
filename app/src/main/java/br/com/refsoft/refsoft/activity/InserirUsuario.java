@@ -24,7 +24,6 @@ public class InserirUsuario extends Activity  implements View.OnClickListener {
     EditText senha;
     EditText login;
     Button btn1;
-    Button btnTeste;
     private RepositorioUsuario repositorioUsuario;
     private Usuario modeloUsuario;
 
@@ -38,8 +37,6 @@ public class InserirUsuario extends Activity  implements View.OnClickListener {
         senha = (EditText) findViewById(R.id.password);
         login = (EditText) findViewById(R.id.login);
         btn1  = (Button) findViewById(R.id.salvar);
-        btnTeste = (Button) findViewById(R.id.btnTeste);
-        btnTeste.setOnClickListener(this);
         btn1.setOnClickListener(this);
 
     }
@@ -61,7 +58,10 @@ public class InserirUsuario extends Activity  implements View.OnClickListener {
                 {
                     repositorioUsuario = new RepositorioUsuario(this);
                     if (view == btn1) {
-                        long id = repositorioUsuario.insertUsuario(inserirUsuario());
+                       // Usuario usuarioInserir = inserirUsuario();
+                        modeloUsuario = inserirUsuario();
+                        long id = repositorioUsuario.insertUsuario(modeloUsuario);
+                        modeloUsuario.setId(id);
 
                         Intent it = new Intent(this, MainActivity.class);
                         it.putExtra("usuario", modeloUsuario);
@@ -73,18 +73,7 @@ public class InserirUsuario extends Activity  implements View.OnClickListener {
                 }
             }
         }
-            if (view == btnTeste) {
-                try {
-                    repositorioUsuario = new RepositorioUsuario(this);
-                    repositorioUsuario.insertUsuario(inserirUsuarioTeste());
 
-                    Intent it = new Intent(this, Parceble.class);
-                    it.putExtra("usuario", modeloUsuario);
-                    startActivity(it);
-                } catch (Exception e) {
-                    Log.i(CATEGORIA, e.toString());
-                }
-            }
     }
 
     private void limpaCampos() {
@@ -97,7 +86,7 @@ public class InserirUsuario extends Activity  implements View.OnClickListener {
     private Usuario inserirUsuarioTeste(){
         modeloUsuario = new Usuario();
         try {
-            modeloUsuario.setId(15);
+            modeloUsuario.setId(19);
             modeloUsuario.setNome("Teste");
             modeloUsuario.setEmail("teste@email.com");
             modeloUsuario.setLogin("Testando");
