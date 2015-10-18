@@ -15,8 +15,7 @@ public class Reporte {
     public String latitude;
     public String longitude;
     public String endereco;
-
-   // public void setStatusReporte(int statusReporte) {this.statusReporte = statusReporte;}
+    private int banner;
 
     public int getIdUsuario() {
         return idUsuario;
@@ -92,5 +91,12 @@ public class Reporte {
 
     public void setEndereco(String endereco) {
         this.endereco = endereco;
+    }
+
+    public int getBanner() {
+        return banner;
+    }
+    public void setBanner(int banner) {
+        this.banner = banner;
     }
 }

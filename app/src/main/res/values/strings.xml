@@ -31,5 +31,8 @@
     </string-array>
     <string name="title_activity_list">ListActivity</string>
     <string name="title_activity_parceble">Parceble</string>
+    <string name="title_activity_lista_customizada">ListaCustomizada</string>
+    <string name="title_activity_listview_customizada_fina">ListviewCustomizadaFinalActivity
+    </string>
 
 </resources>

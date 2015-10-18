@@ -9,6 +9,8 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.refsoft.refsoft.R;
+
 
 public class RepositorioReporte {
 
@@ -18,6 +20,8 @@ public class RepositorioReporte {
     public static final String CATEGORIA = "FastService";
 
     String[] campos = new String[]{"id_reporte", "id_user", "tipo", "descricao", "status", "data", "hora", "latitude", "longitude", "endereco"};
+
+    private int images = R.drawable.ic_icon_72;
 
     public String[] getColunasTabReporte() {
         String[] USUARIOS_COLUNA_TAB_USUARIOS = new String[]{"id_reporte", "id_user", "tipo", "descricao", "status", "data", "hora", "latitude", "longitude", "endereco"};
@@ -55,7 +59,6 @@ public class RepositorioReporte {
             Cursor cursor = db.rawQuery("SELECT * FROM reportes WHERE id_user = " + id_usuario, null);
 
         try {
-            //if (cursor.moveToFirst()) {
                 while (cursor.moveToNext()) {
                     Reporte reporteLinha = new Reporte();
                     reporteLinha.setIdReporte(cursor.getInt(cursor.getColumnIndex("id_reporte")));
@@ -67,8 +70,8 @@ public class RepositorioReporte {
                     reporteLinha.setLatitude(cursor.getString(cursor.getColumnIndex("latitude")));
                     reporteLinha.setLongitude(cursor.getString(cursor.getColumnIndex("longitude")));
                     reporteLinha.setEndereco(cursor.getString(cursor.getColumnIndex("endereco")));
+                    reporteLinha.setBanner(images);
                     listaReporte.add(reporteLinha);
-           //     }
             }
         } catch (Exception e) {
             Log.e("Erro: ", e.getMessage());
@@ -89,7 +92,6 @@ public class RepositorioReporte {
         listaReporte.clear();
 
         try {
-           // if (cursor.moveToFirst()) {
                 while (cursor.moveToNext()) {
                     Reporte reporteLinha = new Reporte();
                     reporteLinha.setIdReporte(cursor.getInt(cursor.getColumnIndex("id_reporte")));
@@ -102,7 +104,6 @@ public class RepositorioReporte {
                     reporteLinha.setLongitude(cursor.getString(cursor.getColumnIndex("longitude")));
                     reporteLinha.setEndereco(cursor.getString(cursor.getColumnIndex("endereco")));
                     listaReporte.add(reporteLinha);
-           //     }
             }
         } catch (Exception e) {
             Log.e("Erro: ", e.getMessage());

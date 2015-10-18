@@ -52,8 +52,8 @@
             android:label="@string/title_activity_login" >
         </activity>
         <activity
-            android:name=".activity.ListActivity"
-            android:label="@string/title_activity_list" >
+            android:name=".activity.ListviewCustomizadaFinalActivity"
+            android:label="@string/title_activity_listview_customizada_fina" >
         </activity>
     </application>
 
