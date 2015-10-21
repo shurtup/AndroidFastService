@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_column="1"
+    android:background="@color/cinza">
+
+<TableLayout
+
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:stretchColumns="2"
+    android:shrinkColumns="2"
+    android:padding="5dp">
+
+    <TableRow>
+        <TextView
+            android:layout_column="1"
+            android:text="Tipo:"
+            android:padding="3dp"
+            android:textSize="24sp"
+            />
+        <TextView
+            android:layout_marginLeft="15px"
+            android:layout_column="2"
+            android:hint="Tipo"
+            android:id="@+id/textTipo"
+            android:textSize="24sp"
+            />
+    </TableRow>
+
+    <TableRow>
+        <TextView
+            android:layout_column="1"
+            android:text="Descrição:"
+            android:textSize="24sp" />
+        <TextView
+            android:layout_marginLeft="15px"
+            android:layout_column="2"
+            android:hint="Descricao"
+            android:id="@+id/textDescricao"
+            android:textSize="24sp" />
+    </TableRow>
+
+    <TableRow>
+        <TextView
+            android:layout_column="1"
+            android:text="Status:"
+            android:textSize="24sp" />
+        <TextView
+            android:layout_marginLeft="15px"
+            android:layout_column="2"
+            android:hint="Status"
+            android:id="@+id/textStatus"
+            android:textSize="24sp"
+            />
+    </TableRow>
+
+
+</TableLayout>
+
+    <LinearLayout
+        android:layout_marginTop="30px"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Editar"
+            android:id="@+id/btnEditar" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Deletar"
+            android:id="@+id/btnDeletar" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Voltar"
+            android:id="@+id/btnVoltar"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+</LinearLayout>

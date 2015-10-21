@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import java.sql.Date;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,8 +67,8 @@ public class RepositorioReporte {
                     reporteLinha.setTipoReporte(cursor.getString(cursor.getColumnIndex("tipo")));
                     reporteLinha.setDescricaoReporte(cursor.getString(cursor.getColumnIndex("descricao")));
                     reporteLinha.setStatusReporte(cursor.getString(cursor.getColumnIndex("status")));
-                    reporteLinha.setDataAbertura(cursor.getString(cursor.getColumnIndex("data")));
-                    reporteLinha.setHoraAbertura(cursor.getString(cursor.getColumnIndex("hora")));
+                    reporteLinha.setDataAbertura(Date.valueOf(cursor.getString(cursor.getColumnIndex("data"))));
+                    reporteLinha.setHoraAbertura(Time.valueOf(cursor.getString(cursor.getColumnIndex("hora"))));
                     reporteLinha.setLatitude(cursor.getString(cursor.getColumnIndex("latitude")));
                     reporteLinha.setLongitude(cursor.getString(cursor.getColumnIndex("longitude")));
                     reporteLinha.setEndereco(cursor.getString(cursor.getColumnIndex("endereco")));
@@ -74,7 +76,9 @@ public class RepositorioReporte {
                     listaReporte.add(reporteLinha);
             }
         } catch (Exception e) {
-            Log.e("Erro: ", e.getMessage());
+           // Log.e("Erro: ", e.getMessage());
+            String msg = (e.getMessage() == null) ? "Error" : e.getMessage();
+            Log.i("Error", msg);
         } finally {
             if (cursor != null) {
                 if (!cursor.isClosed()) {
@@ -98,8 +102,8 @@ public class RepositorioReporte {
                     reporteLinha.setTipoReporte(cursor.getString(cursor.getColumnIndex("tipo")));
                     reporteLinha.setDescricaoReporte(cursor.getString(cursor.getColumnIndex("descricao")));
                     reporteLinha.setStatusReporte(cursor.getString(cursor.getColumnIndex("status")));
-                    reporteLinha.setDataAbertura(cursor.getString(cursor.getColumnIndex("data")));
-                    reporteLinha.setHoraAbertura(cursor.getString(cursor.getColumnIndex("hora")));
+                    reporteLinha.setDataAbertura(Date.valueOf(cursor.getString(cursor.getColumnIndex("data"))));
+                    reporteLinha.setHoraAbertura(Time.valueOf(cursor.getString(cursor.getColumnIndex("hora"))));
                     reporteLinha.setLatitude(cursor.getString(cursor.getColumnIndex("latitude")));
                     reporteLinha.setLongitude(cursor.getString(cursor.getColumnIndex("longitude")));
                     reporteLinha.setEndereco(cursor.getString(cursor.getColumnIndex("endereco")));
@@ -123,8 +127,8 @@ public class RepositorioReporte {
         values.put("tipo", reporte.getTipoReporte());
         values.put("descricao", reporte.getDescricaoReporte());
         values.put("status", reporte.getStatusReporte());
-        values.put("data", reporte.getDataAbertura());
-        values.put("hora", reporte.getHoraAbertura());
+        values.put("data", String.valueOf(reporte.getDataAbertura()));
+        values.put("hora", String.valueOf(reporte.getHoraAbertura()));
         values.put("latitude", reporte.getLatitude());
         values.put("longitude", reporte.getLongitude());
         values.put("endereco", reporte.getEndereco());
@@ -144,11 +148,11 @@ public class RepositorioReporte {
 
 
 
-    public boolean excluirReporte(String ID_REPORTE) {
+    public boolean excluirReporte(String descricao) {
         boolean resultadoExclusao = false;
         try {
-            String where = "id_reporte=?";
-            String[] args = new String[]{ID_REPORTE};
+            String where = "descricao=?";
+            String[] args = new String[]{descricao};
             int num = db.delete("reportes", where, args);
 
             if (num == 1) {
@@ -163,8 +167,8 @@ public class RepositorioReporte {
     public boolean alterarReporte(Reporte reporte, long id_usuario) {
         boolean resultadoAlteracao = false;
         try {
-            String where = "id_reporte=?";
-            String[] args = new String[]{String.valueOf(reporte.getIdReporte())};
+            String where = "descricao=?";
+            String[] args = new String[]{reporte.getDescricaoReporte()};
             int num = db.update("reportes", contentValues(reporte, id_usuario), where, args);
             if (num == 1) {
                 resultadoAlteracao = true;
@@ -188,8 +192,8 @@ public class RepositorioReporte {
                     reporteLinha.setTipoReporte(cursor.getString(cursor.getColumnIndex("tipo")));
                     reporteLinha.setDescricaoReporte(cursor.getString(cursor.getColumnIndex("descricao")));
                     reporteLinha.setStatusReporte(cursor.getString(cursor.getColumnIndex("status")));
-                    reporteLinha.setDataAbertura(cursor.getString(cursor.getColumnIndex("data")));
-                    reporteLinha.setHoraAbertura(cursor.getString(cursor.getColumnIndex("hora")));
+                    reporteLinha.setDataAbertura(Date.valueOf(cursor.getString(cursor.getColumnIndex("data"))));
+                    reporteLinha.setHoraAbertura(Time.valueOf(cursor.getString(cursor.getColumnIndex("hora"))));
                     reporteLinha.setLatitude(cursor.getString(cursor.getColumnIndex("latitude")));
                     reporteLinha.setLongitude(cursor.getString(cursor.getColumnIndex("longitude")));
                     reporteLinha.setEndereco(cursor.getString(cursor.getColumnIndex("endereco")));

@@ -1,5 +1,6 @@
 package br.com.refsoft.refsoft.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
@@ -17,7 +18,8 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import java.util.ArrayList;
+import java.sql.Date;
+import java.sql.Time;
 import java.util.List;
 
 import br.com.refsoft.refsoft.R;
@@ -44,11 +46,8 @@ public class MainActivity extends BaseActivity implements NavigationDrawerFragme
     private ImageButton imgDelete;
     private ImageButton imgAdicionar;
     private EditText descricao;
-    private EditText localizacao;
     private EditText status;
-    private EditText id;
     private Spinner tipo;
-    private ArrayList<String> options;
     Usuario usuario;
 
     @Override
@@ -58,33 +57,17 @@ public class MainActivity extends BaseActivity implements NavigationDrawerFragme
         setUpToolbar();
 
         usuario = (Usuario) getIntent().getSerializableExtra("usuario");
-        options = new ArrayList<>();
         descricao = (EditText) findViewById(R.id.descricao);
         tipo = (Spinner) findViewById(R.id.spinner);
-        localizacao = (EditText) findViewById(R.id.localizacao);
         status = (EditText) findViewById(R.id.status);
-        id = (EditText) findViewById(R.id.id);
 
-        lista = (ListView) findViewById(R.id.list);
-        lista.setOnItemClickListener(this);
-
-        imgAdicionar = (ImageButton) findViewById(R.id.adicionar);
-        imgAdicionar.setOnClickListener(this);
 
         imgSalvar = (ImageButton) findViewById(R.id.save);
         imgSalvar.setOnClickListener(this);
 
-        imgSearch = (ImageButton) findViewById(R.id.search);
-        imgSearch.setOnClickListener(this);
-
-        imgEdit = (ImageButton) findViewById(R.id.edit);
-        imgEdit.setOnClickListener(this);
-
         imgFolder = (ImageButton) findViewById(R.id.folder);
         imgFolder.setOnClickListener(this);
 
-        imgDelete = (ImageButton) findViewById(R.id.delete);
-        imgDelete.setOnClickListener(this);
 
         ArrayAdapter adapterSpinner = ArrayAdapter.createFromResource(this, R.array.tipo, android.R.layout.simple_list_item_1);
         tipo.setAdapter(adapterSpinner);
@@ -103,56 +86,21 @@ public class MainActivity extends BaseActivity implements NavigationDrawerFragme
     public void onClick(View view) {
         repositorioReporte = new RepositorioReporte(this);
 
-        if(view == imgAdicionar){
-                if(descricao.getText().length()==0  || localizacao.getText().length() == 0 || status.getText().length() == 0){
+        if(view == imgSalvar){
+                if(descricao.getText().length()==0  || status.getText().length() == 0){
                     Toast.makeText(this, "Os campos descrição, tipo, localização e status são obrigatórios.", Toast.LENGTH_SHORT).show();
                 }else {
                     long id = repositorioReporte.insertReporte(recuperarDadosCampos(), usuario.getId());
                     limparCampos();
-
                     Toast.makeText(this, "Reporte cadastrado com sucesso id: " + id, Toast.LENGTH_SHORT).show();
                 }
         }
         if(view == imgFolder){
-            preencherListViewReportes(repositorioReporte.listaQuery(usuario.getId()));
-           // preencherListViewReportes(repositorioReporte.listReporte());
-            limparCampos();
+            Intent it = new Intent(this, ListviewCustomizadaFinalActivity.class);
+            it.putExtra("usuario", usuario);
+            startActivity(it);
         }
-        if(view == imgEdit){
-            if(id.length() > 0){
-                boolean update = repositorioReporte.alterarReporte(recuperarDadosCampos(), usuario.getId());
-                limparCampos();
-                preencherListViewReportes(repositorioReporte.listaQuery(usuario.getId()));
-                if (update == true) {
-                    Toast.makeText(this, "Reporte alterado.", Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(this, "Selecionar um cadastro.", Toast.LENGTH_SHORT).show();
-                }
-            }
-        }
-        if(view == imgDelete){
-            if(id.length() > 0){
-                boolean delete = repositorioReporte.excluirReporte(id.getText().toString());
-                limparCampos();
-                preencherListViewReportes(repositorioReporte.listaQuery(usuario.getId()));
 
-                if (delete == true) {
-                    Toast.makeText(this, "Reporte deletado.", Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(this, "Selecionar um cadastro.", Toast.LENGTH_SHORT).show();
-                }
-            }
-        }
-        if (view == imgSearch){
-            String reporteId = id.getText().toString();
-            if(reporteId.length() > 0 ){
-                repositorioReporte = new RepositorioReporte(this);
-                modeloReporte = repositorioReporte.buscaIndividualReporte(reporteId);
-                setarCampos(modeloReporte);
-            }else{
-                Toast.makeText(this, "Informar id para pesquisa.", Toast.LENGTH_SHORT).show();
-            }
-        }
     }
 
     @Override
@@ -164,7 +112,6 @@ public class MainActivity extends BaseActivity implements NavigationDrawerFragme
     }
 
     private void setarCampos(Reporte modeloReporte) {
-        id.setText(Integer.toString(modeloReporte.getIdReporte()));
         descricao.setText(String.valueOf(modeloReporte.getDescricaoReporte()));
       //  tipo.setSelection(String.valueOf(modeloReporte.getTipoReporte()));
         status.setText(String.valueOf(modeloReporte.getStatusReporte()));
@@ -172,10 +119,8 @@ public class MainActivity extends BaseActivity implements NavigationDrawerFragme
     }
 
     private void limparCampos() {
-        id.setText("");
         descricao.setText("");
         tipo.setSelection(0);
-        localizacao.setText("");
         status.setText("");
     }
 
@@ -191,10 +136,15 @@ public class MainActivity extends BaseActivity implements NavigationDrawerFragme
     private Reporte recuperarDadosCampos(){
         modeloReporte = new Reporte();
         try {
-            modeloReporte.setIdReporte(Integer.parseInt(id.getText().toString()));
+            java.util.Date date = new java.util.Date();
+            Date dtAberturaReporte = new java.sql.Date(new java.util.Date().getTime());
+            Time hrAberturaReporte = new java.sql.Time(date.getTime());
+
             modeloReporte.setTipoReporte(tipo.getSelectedItem().toString());
             modeloReporte.setDescricaoReporte(descricao.getText().toString());
             modeloReporte.setStatusReporte(status.getText().toString());
+            modeloReporte.setDataAbertura(dtAberturaReporte);
+            modeloReporte.setHoraAbertura(hrAberturaReporte);
         }catch (Exception e){
             Log.i(CATEGORIA, e.toString());
         }

@@ -34,5 +34,7 @@
     <string name="title_activity_lista_customizada">ListaCustomizada</string>
     <string name="title_activity_listview_customizada_fina">ListviewCustomizadaFinalActivity
     </string>
+    <string name="title_activity_reporte_detalhes">ReporteDetalhes</string>
+    <string name="title_activity_editar_reporte">EditarReporte</string>
 
 </resources>

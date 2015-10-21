@@ -55,7 +55,6 @@ public class InserirUsuario extends Activity  implements View.OnClickListener {
             } else if (!isValidPassword(pass)) {
                 senha.setError("A senha tem que ter mais de 6 characters.");
             } else {
-                {
                     repositorioUsuario = new RepositorioUsuario(this);
                     if (view == btn1) {
                        // Usuario usuarioInserir = inserirUsuario();
@@ -70,7 +69,7 @@ public class InserirUsuario extends Activity  implements View.OnClickListener {
                         limpaCampos();
                         Toast.makeText(this, "Usuario cadastrado com sucesso id: " + id, Toast.LENGTH_SHORT).show();
                     }
-                }
+
             }
         }
 

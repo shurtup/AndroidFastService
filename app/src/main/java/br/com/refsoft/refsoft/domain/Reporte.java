@@ -1,17 +1,21 @@
 package br.com.refsoft.refsoft.domain;
 
+import java.io.Serializable;
+import java.sql.Date;
+import java.sql.Time;
+
 /**
  * Created by Gabriel on 22/09/2015.
  */
-public class Reporte {
+public class Reporte implements Serializable {
 
     public int idReporte;
     public int idUsuario;
     public String tipoReporte;
     public String descricaoReporte;
     public String statusReporte;
-    public String dataAbertura;
-    public String horaAbertura;
+    public Date dataAbertura;
+    public Time horaAbertura;
     public String latitude;
     public String longitude;
     public String endereco;
@@ -53,19 +57,19 @@ public class Reporte {
 
     public void setStatusReporte(String statusReporte) {this.statusReporte = statusReporte;}
 
-    public String getDataAbertura() {
+    public Date getDataAbertura() {
         return dataAbertura;
     }
 
-    public void setDataAbertura(String dataAbertura) {
+    public void setDataAbertura(Date  dataAbertura) {
         this.dataAbertura = dataAbertura;
     }
 
-    public String getHoraAbertura() {
+    public Time getHoraAbertura() {
         return horaAbertura;
     }
 
-    public void setHoraAbertura(String horaAbertura) {
+    public void setHoraAbertura(Time horaAbertura) {
         this.horaAbertura = horaAbertura;
     }
 

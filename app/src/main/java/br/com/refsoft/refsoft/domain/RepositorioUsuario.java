@@ -23,6 +23,7 @@ public class RepositorioUsuario  {
 
     public RepositorioUsuario(Context context){
         try {
+
             dbHelper = new SQliteHelper(context);
             listaUsuarios = new ArrayList<Usuario>();
             db = dbHelper.getWritableDatabase();
@@ -74,6 +75,8 @@ public class RepositorioUsuario  {
         values.put("senha", usuario.getSenha());
         return values;
     }
+
+
     public long insertUsuario(Usuario novoUsuario){
         long id = 0;
         try {
