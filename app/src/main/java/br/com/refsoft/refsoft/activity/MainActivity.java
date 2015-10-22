@@ -14,7 +14,6 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -29,26 +28,20 @@ import br.com.refsoft.refsoft.domain.Reporte;
 import br.com.refsoft.refsoft.domain.RepositorioReporte;
 import br.com.refsoft.refsoft.domain.Usuario;
 import livroandroid.lib.fragment.NavigationDrawerFragment;
-import livroandroid.lib.utils.AndroidUtils;
 
-public class MainActivity extends BaseActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks, View.OnClickListener, AdapterView.OnItemClickListener, AdapterView.OnItemSelectedListener{
+public class MainActivity extends BaseActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks, View.OnClickListener, AdapterView.OnItemSelectedListener {
 
     private NavigationDrawerFragment mNavDrawerFragment;
     private NavDrawerMenuAdapter listAdapter;
-    private ListView lista;
     private static final String CATEGORIA = "MainActivity";
     private RepositorioReporte repositorioReporte;
-    private Reporte modeloReporte;
     private ImageButton imgSalvar;
-    private ImageButton imgEdit;
     private ImageButton imgFolder;
-    private ImageButton imgSearch;
-    private ImageButton imgDelete;
-    private ImageButton imgAdicionar;
     private EditText descricao;
     private EditText status;
     private Spinner tipo;
-    Usuario usuario;
+    private Usuario usuario;
+    private Reporte modeloReporte;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,22 +49,19 @@ public class MainActivity extends BaseActivity implements NavigationDrawerFragme
         setContentView(R.layout.activity_main);
         setUpToolbar();
 
+        //Recupera sessao do usuario
         usuario = (Usuario) getIntent().getSerializableExtra("usuario");
+
         descricao = (EditText) findViewById(R.id.descricao);
         tipo = (Spinner) findViewById(R.id.spinner);
         status = (EditText) findViewById(R.id.status);
-
-
         imgSalvar = (ImageButton) findViewById(R.id.save);
         imgSalvar.setOnClickListener(this);
-
         imgFolder = (ImageButton) findViewById(R.id.folder);
         imgFolder.setOnClickListener(this);
 
-
         ArrayAdapter adapterSpinner = ArrayAdapter.createFromResource(this, R.array.tipo, android.R.layout.simple_list_item_1);
         tipo.setAdapter(adapterSpinner);
-
 
         // Nav Drawer
         mNavDrawerFragment = (NavigationDrawerFragment)
@@ -86,35 +76,22 @@ public class MainActivity extends BaseActivity implements NavigationDrawerFragme
     public void onClick(View view) {
         repositorioReporte = new RepositorioReporte(this);
 
-        if(view == imgSalvar){
-                if(descricao.getText().length()==0  || status.getText().length() == 0){
-                    Toast.makeText(this, "Os campos descrição, tipo, localização e status são obrigatórios.", Toast.LENGTH_SHORT).show();
-                }else {
-                    long id = repositorioReporte.insertReporte(recuperarDadosCampos(), usuario.getId());
-                    limparCampos();
-                    Toast.makeText(this, "Reporte cadastrado com sucesso id: " + id, Toast.LENGTH_SHORT).show();
-                }
+        if (view == imgSalvar) {
+            if (descricao.getText().length() == 0 || status.getText().length() == 0) {
+                Toast.makeText(this, "Os campos descrição, tipo, localização e status são obrigatórios.", Toast.LENGTH_SHORT).show();
+            } else {
+                modeloReporte = recuperarDadosCampos();
+                long id = repositorioReporte.insertReporte(modeloReporte, usuario.getId());
+                modeloReporte.setIdReporte(id);
+                limparCampos();
+                Toast.makeText(this, "Reporte cadastrado com sucesso! ", Toast.LENGTH_SHORT).show();
+            }
         }
-        if(view == imgFolder){
+        if (view == imgFolder) {
             Intent it = new Intent(this, ListviewCustomizadaFinalActivity.class);
             it.putExtra("usuario", usuario);
             startActivity(it);
         }
-
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        String reporteTipo = parent.getItemAtPosition(position).toString();
-        repositorioReporte = new RepositorioReporte(this);
-        modeloReporte = repositorioReporte.buscaIndividualReporte(reporteTipo);
-        setarCampos(modeloReporte);
-    }
-
-    private void setarCampos(Reporte modeloReporte) {
-        descricao.setText(String.valueOf(modeloReporte.getDescricaoReporte()));
-      //  tipo.setSelection(String.valueOf(modeloReporte.getTipoReporte()));
-        status.setText(String.valueOf(modeloReporte.getStatusReporte()));
 
     }
 
@@ -124,16 +101,7 @@ public class MainActivity extends BaseActivity implements NavigationDrawerFragme
         status.setText("");
     }
 
-    public void preencherListViewReportes(List<Reporte> listaReportes){
-        String[] listNomeReportes = new String[listaReportes.size()];
-        for(int i = 0; i < listaReportes.size(); i++){
-            listNomeReportes[i] = listaReportes.get(i).getTipoReporte();
-        }
-        ArrayAdapter<String> adapterListReportes = new ArrayAdapter<>(this, android.R.layout.simple_expandable_list_item_1, listNomeReportes);
-        lista.setAdapter(adapterListReportes);
-    }
-
-    private Reporte recuperarDadosCampos(){
+    private Reporte recuperarDadosCampos() {
         modeloReporte = new Reporte();
         try {
             java.util.Date date = new java.util.Date();
@@ -145,7 +113,7 @@ public class MainActivity extends BaseActivity implements NavigationDrawerFragme
             modeloReporte.setStatusReporte(status.getText().toString());
             modeloReporte.setDataAbertura(dtAberturaReporte);
             modeloReporte.setHoraAbertura(hrAberturaReporte);
-        }catch (Exception e){
+        } catch (Exception e) {
             Log.i(CATEGORIA, e.toString());
         }
         return modeloReporte;
@@ -173,7 +141,7 @@ public class MainActivity extends BaseActivity implements NavigationDrawerFragme
 
         navDrawerFrag.setHeaderValues(view, R.id.listViewContainer, R.drawable.nav_drawer_header, R.drawable.ic_star_rate_black_18dp, R.string.nav_drawer_username, R.string.nav_drawer_email);
 
-        return new NavigationDrawerFragment.NavDrawerListView(view,R.id.listView);
+        return new NavigationDrawerFragment.NavDrawerListView(view, R.id.listView);
     }
 
 
@@ -192,13 +160,12 @@ public class MainActivity extends BaseActivity implements NavigationDrawerFragme
 
         // Seleciona a linha
         this.listAdapter.setSelected(position, true);
-        if(position == 1){
-            if (AndroidUtils.isAndroid3Honeycomb()) {
-
-            }
+        if (position == 3) {
+            Intent it = new Intent(this, ListviewCustomizadaFinalActivity.class);
+            it.putExtra("usuario", usuario);
+            startActivity(it);
         }
 
-        toast("Clicou no item: " + getString(selectedItem.title));
     }
 
 

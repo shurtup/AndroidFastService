@@ -18,7 +18,7 @@ public class Splash extends Activity implements Runnable {
         handler.postDelayed(this, 3000);
     }
 
-    public void run(){
+    public void run() {
         startActivity(new Intent(this, LoginActivity.class));
         finish();
     }

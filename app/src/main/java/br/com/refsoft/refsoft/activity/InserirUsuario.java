@@ -16,9 +16,8 @@ import br.com.refsoft.refsoft.R;
 import br.com.refsoft.refsoft.domain.RepositorioUsuario;
 import br.com.refsoft.refsoft.domain.Usuario;
 
-public class InserirUsuario extends Activity  implements View.OnClickListener {
+public class InserirUsuario extends Activity implements View.OnClickListener {
     private static final String CATEGORIA = "InserirUsuario";
-    private static final int inserir = 1;
     EditText nome;
     EditText email;
     EditText senha;
@@ -28,15 +27,15 @@ public class InserirUsuario extends Activity  implements View.OnClickListener {
     private Usuario modeloUsuario;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    { super.onCreate(savedInstanceState);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inserir_usuario);
 
-        nome  = (EditText) findViewById(R.id.nome);
+        nome = (EditText) findViewById(R.id.nome);
         email = (EditText) findViewById((R.id.email));
         senha = (EditText) findViewById(R.id.password);
         login = (EditText) findViewById(R.id.login);
-        btn1  = (Button) findViewById(R.id.salvar);
+        btn1 = (Button) findViewById(R.id.salvar);
         btn1.setOnClickListener(this);
 
     }
@@ -55,21 +54,17 @@ public class InserirUsuario extends Activity  implements View.OnClickListener {
             } else if (!isValidPassword(pass)) {
                 senha.setError("A senha tem que ter mais de 6 characters.");
             } else {
-                    repositorioUsuario = new RepositorioUsuario(this);
-                    if (view == btn1) {
-                       // Usuario usuarioInserir = inserirUsuario();
-                        modeloUsuario = inserirUsuario();
-                        long id = repositorioUsuario.insertUsuario(modeloUsuario);
-                        modeloUsuario.setId(id);
-
-                        Intent it = new Intent(this, MainActivity.class);
-                        it.putExtra("usuario", modeloUsuario);
-                        startActivity(it);
-
-                        limpaCampos();
-                        Toast.makeText(this, "Usuario cadastrado com sucesso id: " + id, Toast.LENGTH_SHORT).show();
-                    }
-
+                repositorioUsuario = new RepositorioUsuario(this);
+                if (view == btn1) {
+                    modeloUsuario = inserirUsuario();
+                    long id = repositorioUsuario.insertUsuario(modeloUsuario);
+                    modeloUsuario.setId(id);
+                    Intent it = new Intent(this, MainActivity.class);
+                    it.putExtra("usuario", modeloUsuario);
+                    startActivity(it);
+                    limpaCampos();
+                    Toast.makeText(this, "Usuario cadastrado com sucesso id: " + id, Toast.LENGTH_SHORT).show();
+                }
             }
         }
 
@@ -82,21 +77,7 @@ public class InserirUsuario extends Activity  implements View.OnClickListener {
         senha.setText("");
     }
 
-    private Usuario inserirUsuarioTeste(){
-        modeloUsuario = new Usuario();
-        try {
-            modeloUsuario.setId(19);
-            modeloUsuario.setNome("Teste");
-            modeloUsuario.setEmail("teste@email.com");
-            modeloUsuario.setLogin("Testando");
-            modeloUsuario.setSenha("123456");
-        }catch(Exception e){
-            Log.i(CATEGORIA, e.toString());
-        }
-        return modeloUsuario;
-    }
-
-    private Usuario inserirUsuario(){
+    private Usuario inserirUsuario() {
         modeloUsuario = new Usuario();
 
         try {
@@ -104,12 +85,11 @@ public class InserirUsuario extends Activity  implements View.OnClickListener {
             modeloUsuario.setEmail(email.getText().toString());
             modeloUsuario.setLogin(login.getText().toString());
             modeloUsuario.setSenha(senha.getText().toString());
-        }catch(Exception e){
+        } catch (Exception e) {
             Log.i(CATEGORIA, e.toString());
         }
         return modeloUsuario;
     }
-
 
     private boolean isValidEmail(String email) {
         String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"

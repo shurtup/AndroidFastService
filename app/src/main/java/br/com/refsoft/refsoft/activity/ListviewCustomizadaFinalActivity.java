@@ -19,24 +19,26 @@ import br.com.refsoft.refsoft.domain.Usuario;
 public class ListviewCustomizadaFinalActivity extends Activity implements AdapterView.OnItemClickListener, View.OnClickListener {
 
     Usuario usuario;
-    Reporte modeloReporte;
     private List<Reporte> reporte;
     RepositorioReporte repositorioReporte;
     Button btnAdicionar;
+    ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.listview_customizada_final);
 
+        //Recupera sessao do usuario
+        usuario = (Usuario) getIntent().getSerializableExtra("usuario");
 
         btnAdicionar = (Button) findViewById(R.id.btnAdicionar);
         btnAdicionar.setOnClickListener(this);
-        ListView listView = (ListView) findViewById(R.id.lista);
-        usuario = (Usuario) getIntent().getSerializableExtra("usuario");
+        listView = (ListView) findViewById(R.id.lista);
         repositorioReporte = new RepositorioReporte(this);
         reporte = repositorioReporte.listaQuery(usuario.getId());
-        ListaCustomizadaAdapter adapterList = new ListaCustomizadaAdapter(this,R.layout.listacustomizada_reportes, reporte);
+
+        ListaCustomizadaAdapter adapterList = new ListaCustomizadaAdapter(this, R.layout.listacustomizada_reportes, reporte);
 
         listView.setAdapter(adapterList);
         listView.setOnItemClickListener(this);
@@ -44,11 +46,7 @@ public class ListviewCustomizadaFinalActivity extends Activity implements Adapte
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-        // Obtêm os detalhes do Estado selecionado
         Reporte reportePosition = reporte.get(position);
-
-        // Exibe a Activity com os detalhes dos Reportes
         Intent intent = new Intent(this, ReporteDetalhes.class);
         intent.putExtra("reporteTipo", reportePosition);
         intent.putExtra("usuario", usuario);
@@ -58,7 +56,7 @@ public class ListviewCustomizadaFinalActivity extends Activity implements Adapte
     @Override
     public void onClick(View v) {
 
-        if(v == btnAdicionar){
+        if (v == btnAdicionar) {
             Intent it = new Intent(this, MainActivity.class);
             it.putExtra("usuario", usuario);
             startActivity(it);

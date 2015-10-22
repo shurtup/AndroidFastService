@@ -20,56 +20,29 @@ public class ListaCustomizadaAdapter extends ArrayAdapter<Reporte> {
     private List<Reporte> reporteList;
     private int layoutResourceId;
 
-    public ListaCustomizadaAdapter(Context context, int layoutResourceId, List<Reporte> reportelist){
+    public ListaCustomizadaAdapter(Context context, int layoutResourceId, List<Reporte> reportelist) {
         super(context, layoutResourceId, reportelist);
         this.layoutResourceId = layoutResourceId;
         this.context = context;
         this.reporteList = reportelist;
     }
 
- /*   @Override
-    public int getCount() {
-        return reporteList.size();
-    }
-
-    @Override
-    public Object getItem(int position) {
-        return reporteList.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
-*/
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        // Recupera o estado da posição atual
         Reporte reporte = reporteList.get(position);
-
-        // Cria uma instância do layout XML para os objetos correspondentes
-        // na View
-        LayoutInflater inflater = ((Activity)context).getLayoutInflater();
-
-       /* LayoutInflater inflater = (LayoutInflater)
-                context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-       */
+        LayoutInflater inflater = ((Activity) context).getLayoutInflater();
         View view = inflater.inflate(layoutResourceId, parent, false);
 
-        // Estado - Abreviação
-        TextView textTipo = (TextView)view.findViewById(R.id.textTipo);
+        TextView textTipo = (TextView) view.findViewById(R.id.textTipo);
         textTipo.setText(reporte.getTipoReporte());
 
-        // Capital
-        TextView textDescricao = (TextView)view.findViewById(R.id.textDescricao);
+        TextView textDescricao = (TextView) view.findViewById(R.id.textDescricao);
         textDescricao.setText(reporte.getDescricaoReporte());
 
-        // Status
-        TextView textStatus = (TextView)view.findViewById(R.id.textStatus);
+        TextView textStatus = (TextView) view.findViewById(R.id.textStatus);
         textStatus.setText(String.valueOf(reporte.getStatusReporte()));
 
-        // Imagem
-        ImageView img = (ImageView)view.findViewById(R.id.imageFastService);
+        ImageView img = (ImageView) view.findViewById(R.id.imageFastService);
         img.setImageResource(reporte.getBanner());
 
         return view;

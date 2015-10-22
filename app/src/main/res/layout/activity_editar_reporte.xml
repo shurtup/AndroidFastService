@@ -68,7 +68,7 @@
             android:layout_height="wrap_content"
             android:text="Salvar"
             android:id="@+id/salvar"
-            android:background="@color/wallet_highlighted_text_holo_light"
+            android:background="@color/azul"
             android:layout_gravity="center_horizontal" />
 
     </LinearLayout>

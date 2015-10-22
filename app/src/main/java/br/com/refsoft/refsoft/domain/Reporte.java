@@ -9,7 +9,7 @@ import java.sql.Time;
  */
 public class Reporte implements Serializable {
 
-    public int idReporte;
+    public long idReporte;
     public int idUsuario;
     public String tipoReporte;
     public String descricaoReporte;
@@ -29,11 +29,11 @@ public class Reporte implements Serializable {
         this.idUsuario = idUsuario;
     }
 
-    public int getIdReporte() {
+    public long getIdReporte() {
         return idReporte;
     }
 
-    public void setIdReporte(int idReporte) {
+    public void setIdReporte(long idReporte) {
         this.idReporte = idReporte;
     }
 
@@ -53,15 +53,19 @@ public class Reporte implements Serializable {
         this.descricaoReporte = descricaoReporte;
     }
 
-    public String getStatusReporte() {return statusReporte;}
+    public String getStatusReporte() {
+        return statusReporte;
+    }
 
-    public void setStatusReporte(String statusReporte) {this.statusReporte = statusReporte;}
+    public void setStatusReporte(String statusReporte) {
+        this.statusReporte = statusReporte;
+    }
 
     public Date getDataAbertura() {
         return dataAbertura;
     }
 
-    public void setDataAbertura(Date  dataAbertura) {
+    public void setDataAbertura(Date dataAbertura) {
         this.dataAbertura = dataAbertura;
     }
 
@@ -100,6 +104,7 @@ public class Reporte implements Serializable {
     public int getBanner() {
         return banner;
     }
+
     public void setBanner(int banner) {
         this.banner = banner;
     }

@@ -16,5 +16,9 @@
     <color name="gray">#eee</color>
     <color name = "cinza">#a9b8c9</color>
     <color name = "cinza_escuro">#93a2b3</color>
+    <color name = "verde">#43CD80</color>
+    <color name = "azul">#5CACEE</color>
+    <color name = "cinza_claro">#CDC9C9</color>
+
 
 </resources>
