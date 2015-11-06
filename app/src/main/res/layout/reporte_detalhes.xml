@@ -57,6 +57,19 @@
             android:textSize="24sp"
             />
     </TableRow>
+    <TableRow>
+        <TextView
+            android:layout_column="1"
+            android:text="Data:"
+            android:textSize="24sp" />
+        <TextView
+            android:layout_marginLeft="15px"
+            android:layout_column="2"
+            android:hint="Data"
+            android:id="@+id/textData"
+            android:textSize="24sp"
+            />
+    </TableRow>
 
 
 </TableLayout>
@@ -90,4 +103,10 @@
             android:layout_weight="1" />
     </LinearLayout>
 
+    <fragment
+        android:id="@+id/mapDetalhesFragment"
+        android:name="com.google.android.gms.maps.MapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"/>
 </LinearLayout>

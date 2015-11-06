@@ -1,8 +1,6 @@
 package br.com.refsoft.refsoft.domain;
 
 import java.io.Serializable;
-import java.sql.Date;
-import java.sql.Time;
 
 /**
  * Created by Gabriel on 22/09/2015.
@@ -14,10 +12,9 @@ public class Reporte implements Serializable {
     public String tipoReporte;
     public String descricaoReporte;
     public String statusReporte;
-    public Date dataAbertura;
-    public Time horaAbertura;
-    public String latitude;
-    public String longitude;
+    public String dataAbertura;
+    public double latitude;
+    public double longitude;
     public String endereco;
     private int banner;
 
@@ -61,35 +58,27 @@ public class Reporte implements Serializable {
         this.statusReporte = statusReporte;
     }
 
-    public Date getDataAbertura() {
+    public String getDataAbertura() {
         return dataAbertura;
     }
 
-    public void setDataAbertura(Date dataAbertura) {
+    public void setDataAbertura(String dataAbertura) {
         this.dataAbertura = dataAbertura;
     }
 
-    public Time getHoraAbertura() {
-        return horaAbertura;
-    }
-
-    public void setHoraAbertura(Time horaAbertura) {
-        this.horaAbertura = horaAbertura;
-    }
-
-    public String getLatitude() {
+    public Double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(String latitude) {
+    public void setLatitude(Double latitude) {
         this.latitude = latitude;
     }
 
-    public String getLongitude() {
+    public Double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(String longitude) {
+    public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
 

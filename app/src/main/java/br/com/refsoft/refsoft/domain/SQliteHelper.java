@@ -25,7 +25,7 @@ public class SQliteHelper extends SQLiteOpenHelper {
         Log.d(TAG, "Criando a Tabela usuario...");
         db.execSQL("create table if not exists usuarios (id_usuario integer primary key autoincrement,nome text, email text,login text, senha text);");
         Log.d(TAG, "Tabela usuario criada com sucesso.");
-        db.execSQL("create table if not exists reportes (id_reporte integer primary key autoincrement,tipo text, descricao text,status text, data text, hora text, longitude text, latitude text, endereco text, id_user integer, foreign key(id_user) references usuarios (id_usuario));");
+        db.execSQL("create table if not exists reportes (id_reporte integer primary key autoincrement,tipo text, descricao text,status text, data text, longitude text, latitude text, id_user integer, foreign key(id_user) references usuarios (id_usuario));");
     }
 
     @Override

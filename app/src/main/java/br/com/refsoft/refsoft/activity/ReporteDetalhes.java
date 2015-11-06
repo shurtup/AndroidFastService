@@ -11,6 +11,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.LatLng;
+
 import br.com.refsoft.refsoft.R;
 import br.com.refsoft.refsoft.domain.Reporte;
 import br.com.refsoft.refsoft.domain.RepositorioReporte;
@@ -27,10 +32,9 @@ public class ReporteDetalhes extends Activity implements View.OnClickListener {
     Button btnVoltar;
     Button btnDeletar;
     Reporte modeloReporte;
-
-
-    private String tipoReporte;
-    private AlertDialog.Builder alert;
+    private GoogleMap map;
+    Double latitude;
+    Double longitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,22 +47,27 @@ public class ReporteDetalhes extends Activity implements View.OnClickListener {
         TextView textTipo = (TextView) findViewById(R.id.textTipo);
         TextView textDescricao = (TextView) findViewById(R.id.textDescricao);
         TextView textStatus = (TextView) findViewById(R.id.textStatus);
+        TextView textData = (TextView) findViewById(R.id.textData);
         btnDeletar = (Button) findViewById(R.id.btnDeletar);
         btnEditar = (Button) findViewById(R.id.btnEditar);
         btnVoltar = (Button) findViewById(R.id.btnVoltar);
         btnDeletar.setOnClickListener(this);
         btnEditar.setOnClickListener(this);
         btnVoltar.setOnClickListener(this);
-
         modeloReporte = (Reporte) getIntent().getSerializableExtra("reporteTipo");
+        implementarGoogleMaps();
+
+        latitude = modeloReporte.getLatitude();
+        longitude = modeloReporte.getLongitude();
+        LatLng latLng = new LatLng(latitude, longitude);
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17));
+        map.animateCamera(CameraUpdateFactory.zoomTo(17), 2000, null);
         if (modeloReporte != null) {
             textTipo.setText(modeloReporte.getTipoReporte());
             textDescricao.setText(modeloReporte.getDescricaoReporte());
             textStatus.setText(modeloReporte.getStatusReporte());
-            //    edtData.setText((CharSequence) modeloReporte.getDataAbertura());
-            tipoReporte = textTipo.toString();
+            textData.setText(modeloReporte.getDataAbertura());
         }
-
     }
 
     @Override
@@ -116,7 +125,18 @@ public class ReporteDetalhes extends Activity implements View.OnClickListener {
         builder.setMessage("Deseja realmente deletar O reporte" + usuario.getId() + "?")
                 .setPositiveButton("Sim", dialogClickListener)
                 .setNegativeButton("Não", dialogClickListener).show();
+    }
 
+    private void implementarGoogleMaps() {
+        try {
+            if (map == null) {
+                map = ((MapFragment) getFragmentManager().
+                        findFragmentById(R.id.mapDetalhesFragment)).getMap();
+            }
+            map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

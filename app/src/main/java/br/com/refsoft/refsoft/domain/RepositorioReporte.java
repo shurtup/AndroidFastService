@@ -6,8 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import java.sql.Date;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,11 +38,9 @@ public class RepositorioReporte {
                 reporteLinha.setTipoReporte(cursor.getString(cursor.getColumnIndex("tipo")));
                 reporteLinha.setDescricaoReporte(cursor.getString(cursor.getColumnIndex("descricao")));
                 reporteLinha.setStatusReporte(cursor.getString(cursor.getColumnIndex("status")));
-                reporteLinha.setDataAbertura(Date.valueOf(cursor.getString(cursor.getColumnIndex("data"))));
-                reporteLinha.setHoraAbertura(Time.valueOf(cursor.getString(cursor.getColumnIndex("hora"))));
-                reporteLinha.setLatitude(cursor.getString(cursor.getColumnIndex("latitude")));
-                reporteLinha.setLongitude(cursor.getString(cursor.getColumnIndex("longitude")));
-                reporteLinha.setEndereco(cursor.getString(cursor.getColumnIndex("endereco")));
+                reporteLinha.setDataAbertura(cursor.getString(cursor.getColumnIndex("data")));
+                reporteLinha.setLatitude(cursor.getDouble(cursor.getColumnIndex("latitude")));
+                reporteLinha.setLongitude(cursor.getDouble(cursor.getColumnIndex("longitude")));
                 reporteLinha.setBanner(images);
                 listaReporte.add(reporteLinha);
             }
@@ -69,10 +65,8 @@ public class RepositorioReporte {
         values.put("descricao", reporte.getDescricaoReporte());
         values.put("status", reporte.getStatusReporte());
         values.put("data", String.valueOf(reporte.getDataAbertura()));
-        values.put("hora", String.valueOf(reporte.getHoraAbertura()));
         values.put("latitude", reporte.getLatitude());
         values.put("longitude", reporte.getLongitude());
-        values.put("endereco", reporte.getEndereco());
         return values;
     }
 
@@ -82,10 +76,8 @@ public class RepositorioReporte {
         values.put("descricao", reporte.getDescricaoReporte());
         values.put("status", reporte.getStatusReporte());
         values.put("data", String.valueOf(reporte.getDataAbertura()));
-        values.put("hora", String.valueOf(reporte.getHoraAbertura()));
         values.put("latitude", reporte.getLatitude());
         values.put("longitude", reporte.getLongitude());
-        values.put("endereco", reporte.getEndereco());
         return values;
     }
 
